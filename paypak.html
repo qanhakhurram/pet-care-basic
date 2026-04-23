@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>💳PayPak Payment</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#1b2a1f;
+  color:white;
+  text-align:center;
+  padding:40px;
+}
+
+.box{
+  background:#2f3e2f;
+  padding:50px;
+  border-radius:15px;
+  width:90%;
+  margin:auto;
+  max-width:500px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border:none;
+  border-radius:8px;
+}
+
+button{
+  padding:10px;
+  width:100%;
+  border:none;
+  border-radius:20px;
+  background:#a3d977;
+}
+
+a{
+  display:inline-block;
+  margin-top:20px;
+  color:#a3d977;
+}
+button{
+  font-size:16px;
+  padding:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>💳PayPak Payment</h2>
+
+<p>Send payment to:</p>
+<b>0311-9876543</b>
+
+<input placeholder="PayPak Paymet">
+<input placeholder="Transaction ID">
+
+<button onclick="done()">Confirm Payment</button>
+
+<a href="index.html">Choose an other Bank</a>
+
+</div>
+
+<script>
+function done(){
+  alert("✅ Payment Successful via PayPak!");
+}
+</script>
+
+</body>
+</html>

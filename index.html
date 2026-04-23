@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Trusted Pet Care & Boarding Services</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#1b2a1f;
+  color:white;
+}
+
+/* NAVBAR */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  background:#2f4f2f;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+nav a{
+  margin:0 12px;
+  color:white;
+  text-decoration:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+nav a:hover{
+  color:#a3d977;
+}
+
+/* SECTIONS */
+section{
+  display:none;
+  padding:40px;
+}
+
+.active{
+  display:block;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:60px;
+  background:linear-gradient(135deg,#2f4f2f,#5c4033);
+}
+
+.search{
+  width:60%;
+  padding:12px;
+  border-radius:20px;
+  border:none;
+  margin-top:15px;
+}
+
+/* CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:30px;
+}
+
+.card{
+  background:#2f3e2f;
+  padding:15px;
+  border-radius:12px;
+  cursor:pointer;
+  text-align:center;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:scale(1.05);
+  background:#3f5a3f;
+}
+
+.card img{
+  width:90px;
+  height:90px;
+  border-radius:10px;
+}
+
+/* CONTENT BOX */
+.box{
+  background:#3b2f2f;
+  padding:25px;
+  border-radius:12px;
+  line-height:1.7;
+}
+
+/* FORM */
+form{
+  background:#2f3e2f;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+
+input,textarea,select{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:none;
+  border-radius:8px;
+}
+
+button{
+  padding:10px 18px;
+  border:none;
+  background:#a3d977;
+  border-radius:20px;
+  cursor:pointer;
+}
+.back-btn{
+  background:#a3d977;
+  color:#1b2a1f;
+  border:none;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+.back-btn:hover{
+  background:#c2f29a;
+}
+section{
+  display:none;
+  padding:40px;
+  animation: fade 0.4s ease-in-out;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+.light{
+  background:white;
+  color:black;
+}
+
+.light nav{
+  background:#ddd;
+}
+
+.light .box,
+.light .card{
+  background:#f2f2f2;
+  color:black;
+}
+.navbar{
+  margin-top:10px;
+}
+.top-title{
+  background:#2f4f2f;
+  color:white;
+  text-align:left;
+  padding:10px 40px;
+  font-weight:bold;
+  font-size:25px;
+}
+
+.navbar{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding:15px 40px;
+}
+/* =========================
+   📱 MOBILE RESPONSIVE FIX
+   ========================= */
+
+@media (max-width: 1024px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .search{
+    width:80%;
+  }
+
+  nav{
+    flex-direction:column;
+    text-align:center;
+    padding:15px;
+  }
+
+  .navbar{
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+}
+
+@media (max-width: 600px){
+
+  section{
+    padding:20px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding:30px 15px;
+  }
+
+  .search{
+    width:95%;
+    font-size:14px;
+  }
+
+  .card img{
+    width:70px;
+    height:70px;
+  }
+
+  .box{
+    padding:15px;
+    font-size:14px;
+  }
+
+  nav a{
+    display:block;
+    margin:8px 0;
+  }
+
+  .top-title{
+    font-size:18px;
+    padding:10px;
+    text-align:center;
+  }
+  button{
+  font-size:16px;
+  padding:12px;
+}
+
+
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="top-title">
+🐾 Trusted Pet Care & Boarding Services
+</div>
+
+<nav class="navbar">
+<div class="nav-links">
+    <a onclick="show('home')">Home</a>
+    <a onclick="show('about')">About Us</a>
+    <a onclick="show('vet')">Veterinary Services</a>
+    <a onclick="show('contact')">Contact Us</a>
+    <a onclick="show('login')">Log In</a>
+    <a onclick="show('faq')">FAQ</a>
+    <a href="payment.html">Payment</a>
+    <button onclick="toggleTheme()" class="theme-btn">🌙 Theme</button>
+  </div>
+
+</nav>
+<!-- HOME -->
+<section id="home" class="active">
+
+<div class="hero">
+<h1>🌿 Trusted Pet Care & Boarding Services</h1>
+<p>Love, Care & Professional Treatment for Your Pets 🐾</p>
+
+<div style="text-align:center; position:relative;">
+
+  <!-- SEARCH ICON -->
+  <span style="
+    position:absolute;
+    left:19%;
+    top:51%;
+    transform:translateY(-50%);
+    color:black;
+    font-size:16px;
+  ">🔍</span>
+
+  <!-- INPUT -->
+  <input id="searchBox" class="search"
+    placeholder="Search services..."
+    onkeyup="showSuggestions()"
+    onkeydown="handleEnter(event)"
+    style="padding-left:35px;"
+  >
+
+  <!-- SUGGESTIONS -->
+  <div id="suggestions" style="
+    position:absolute;
+    left:20%;
+    width:60%;
+    background:white;
+    color:black;
+    border-radius:10px;
+    margin-top:5px;
+    display:none;
+    text-align:left;
+  "></div>
+
+</div>
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="openPage('catgroom')">
+<img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131">
+<h4>Cat Grooming</h4>
+</div>
+
+<div class="card" onclick="openPage('doggroom')">
+<img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8">
+<h4>Dog Grooming</h4>
+</div>
+
+<div class="card" onclick="openPage('catboarding')">
+<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba">
+<h4>Cat Boarding</h4>
+</div>
+
+<div class="card" onclick="openPage('dogboarding')">
+<img src="https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8">
+<h4>Dog Boarding</h4>
+</div>
+
+</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <button class="back-btn" onclick="show('home')">⬅ Home</button>
+<div class="box">
+
+<h2>🌿 About Us</h2>
+
+<p>
+We are a dedicated pet care platform committed to providing safe, reliable, and loving services for your pets. Our mission is to ensure that every pet feels at home, even when their owners are away.
+
+We understand that pets are not just animals—they are family. That’s why we offer trusted services like grooming, boarding, walking, and personalized care with trained professionals who treat every pet with love and attention.
+
+From a playful puppy to a calm cat, we make sure every pet gets the care they deserve. Our platform is built on trust, comfort, and compassion, ensuring peace of mind for pet owners. We are a trusted Pet Care & Boarding Service platform dedicated to providing love, safety, and professional care for your pets.
+Our mission is to treat every pet like family.
+💬 “We don’t just take care of pets — we take care of family.”
+</p>
+
+<p>
+We provide grooming, walking, boarding, and daily care services with trained caregivers who ensure comfort, hygiene, and emotional well-being of your pets.
+</p>
+
+<p>
+🐾 “Because your pets deserve love when you’re away”
+</p>
+
+</div>
+</section>
+
+<!-- VETERINARY -->
+<section id="vet">
+  <button class="back-btn" onclick="show('home')">⬅ Home</button>
+<div class="box">
+
+<h2>🏥 Veterinary Services</h2>
+
+<p>
+Our Veterinary Services ensure your pet stays healthy, active, and protected at all times. We provide access to experienced veterinary professionals who handle routine checkups, vaccinations, emergency care, and health consultations.
+
+We focus on early diagnosis, prevention, and proper treatment so your pets can live a long, happy life. From minor health issues to urgent medical attention, our veterinary support is always ready to help.
+
+We also guide pet owners about nutrition, hygiene, and daily care routines to improve their pet’s lifestyle. 
+Your pet’s safety and health is our first priority.
+💬 “Your pet’s health is our first priority.”
+</p>
+
+<img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e" style="width: 50%;border-radius:12px;margin-top:15px;">
+
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <button class="back-btn" onclick="show('home')">⬅ Home</button>
+<div class="box">
+
+<h2>📩 Contact Us</h2>
+
+<p>
+We are always here for you and your beloved pets. Whether you need booking, support, or consultation, our team is just one message or call away.
+
+You can contact us anytime for:
+
+Booking pet grooming or boarding services
+Veterinary consultation
+Emergency pet assistance
+General inquiries
+
+We value your trust and aim to respond quickly with the best possible solution for your pet’s needs.For buying our trusted pet care and boarding services contact us on:
+<br><br>
+<b>petcareandboardingservices@gmail.com</b>
+</p>
+
+<p>
+🐾 “Your pet’s happiness is just one message away”
+</p>
+
+</div>
+</section>
+<section id="faq">
+  <button class="back-btn" onclick="show('home')">⬅ Home</button>
+<div class="box">
+
+<h2>❓ Frequently Asked Questions (FAQ)</h2>
+
+<p><b>Q1: How can I book a pet service?</b><br>
+You can simply go to the service section, click on any service (like grooming or boarding), fill the form and submit your request.</p>
+
+<p><b>Q2: Are your pet services safe?</b><br>
+Yes, all our services are handled by trained professionals who ensure full safety, care, and hygiene for your pets.</p>
+
+<p><b>Q3: Do you provide emergency veterinary support?</b><br>
+Yes, our veterinary team is available for urgent health issues and consultations.</p>
+
+<p><b>Q4: Can I track my pet during boarding?</b><br>
+Yes, we provide updates and monitoring support so you stay connected with your pet.</p>
+
+<p><b>Q5: What pets do you accept?</b><br>
+We mainly provide services for cats and dogs, including grooming, boarding, and walking.</p>
+
+</div>
+</section>
+<!-- CAT GROOMING -->
+<section id="catgroom">
+<div class="box">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+<h2>🐱 Cat Grooming</h2>
+
+<p>
+Cat grooming is a gentle and careful service designed to maintain the cleanliness, comfort, and health of cats. Unlike dogs, cats are more sensitive, so grooming requires special attention and a calm environment. This service includes brushing the fur to remove tangles and loose hair, trimming nails to prevent scratching issues, cleaning ears, and occasional bathing using mild, cat-friendly products.
+
+Regular grooming helps in controlling excessive shedding and prevents the formation of hairballs, which are common in cats. It also reduces the risk of skin infections, fleas, and irritation. Grooming sessions also allow early detection of any unusual skin conditions, lumps, or parasites.
+
+Professional cat groomers ensure that the process is stress-free by handling cats softly and patiently. This improves the cat’s hygiene, mood, and overall health while keeping them active and comfortable.
+</p>
+
+<form onsubmit="done(event)">
+<h3>Apply for Cat Grooming</h3>
+
+<input placeholder="Owner Name" required>
+<input placeholder="Email" required>
+<input placeholder="Pet Name" required>
+
+<input type="date" required>
+
+<textarea placeholder="Why do you need this service?" required></textarea>
+
+<button type="submit">Book Now</button>
+</form>
+</div>
+</section>
+<!-- DOG GROOMING -->
+<section id="doggroom">
+<div class="box">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+<h2>🐶 Dog Grooming</h2>
+
+<p>
+Dog grooming is an essential pet care service that focuses on maintaining the overall hygiene, health, and appearance of dogs. It includes a complete cleaning routine such as bathing with pet-safe shampoos, thorough brushing to remove dirt and loose fur, nail trimming to prevent overgrowth, ear cleaning to avoid infections, and coat styling according to breed requirements.
+
+Regular grooming not only keeps the dog clean and fresh but also improves their physical health. It helps in reducing shedding, preventing skin allergies, removing ticks or fleas, and identifying early signs of health issues like rashes, wounds, or infections. Professional groomers handle dogs carefully to ensure they feel safe and comfortable during the process.
+
+Overall, dog grooming improves both the appearance and well-being of pets, making them healthier, happier, and more active.
+</p>
+
+<form onsubmit="done(event)">
+<h3>Apply for Dog Grooming</h3>
+
+<input placeholder="Owner Name" required>
+<input placeholder="Email" required>
+<input placeholder="Pet Name" required>
+
+<input type="date" required>
+
+<textarea placeholder="Why do you need this service?" required></textarea>
+
+<button type="submit">Book Now</button>
+</form>
+</div>
+</section>
+
+<!-- CAT BOARDING -->
+<section id="catboarding">
+<div class="box">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+<h2>🏡 Cat Boarding</h2>
+
+<p>
+Cat boarding is a specialized service that provides a peaceful and secure environment for cats when their owners are not available. Since cats prefer quiet and familiar surroundings, boarding centers are designed to reduce stress and provide comfort. Each cat is given a clean, separate, and cozy space along with proper food, fresh water, and litter management.
+
+The caretakers ensure that cats are handled gently and are not exposed to loud or stressful environments. Regular monitoring is done to maintain their health and emotional well-being. Some boarding centers also offer playtime and light interaction to keep cats mentally active without disturbing their calm nature.
+
+Cat boarding ensures that pets feel safe, relaxed, and cared for while their owners are away, making it a reliable solution for temporary pet care.
+</p>
+
+<form onsubmit="done(event)">
+<h3>Apply for Cat Boarding</h3>
+
+<input placeholder="Owner Name" required>
+<input placeholder="Email" required>
+<input placeholder="Pet Name" required>
+
+<input type="date" required>
+
+<textarea placeholder="Why do you need this service?" required></textarea>
+
+<button type="submit">Book Now</button>
+</form>
+</div>
+</section>
+
+<!-- DOG BOARDING -->
+<section id="dogboarding">
+<div class="box">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+<h2>🏡 Dog Boarding</h2>
+
+<p>
+Dog boarding is a professional pet care service that provides a safe, secure, and comfortable temporary home for dogs when their owners are away due to travel, work, or emergencies. In boarding facilities, dogs are taken care of in a homely environment where they receive proper food, clean water, regular exercise, and constant supervision.
+
+These facilities ensure that dogs follow their routine habits, including walking, playing, and resting. Many boarding services also provide social interaction with other dogs, which helps reduce loneliness and anxiety. Trained staff monitor the pets for health issues and provide immediate care if needed.
+
+Dog boarding gives pet owners peace of mind knowing that their pets are in safe hands. It ensures that dogs remain happy, well-fed, active, and stress-free during their stay.
+</p>
+
+<form onsubmit="done(event)">
+<h3>Apply for Dog Boarding</h3>
+
+<input placeholder="Owner Name" required>
+<input placeholder="Email" required>
+<input placeholder="Pet Name" required>
+
+<input type="date" required>
+
+<textarea placeholder="Why do you need this service?" required></textarea>
+
+<button type="submit">Book Now</button>
+</form>
+</div>
+</section>
+<!-- LOGIN PAGE -->
+<section id="login">
+<button class="back-btn" onclick="show('home')">⬅ Home</button>
+<div class="box">
+
+<h2>🔐 Login to Your Account</h2>
+
+<p>Access your pet care dashboard and manage bookings 🐾</p>
+
+<form onsubmit="loginUser(event)">
+  <div id="userProfile" style="display:none; text-align:center; margin-bottom:15px;">
+
+  <img id="userPic"
+  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+  style="width:70px; height:70px; border-radius:50%;">
+
+  <p id="userName" style="margin:5px 0; font-weight:bold;"></p>
+
+  <p id="userEmail" style="color:lightgreen;"></p>
+
+</div>
+
+<input type="email" placeholder="Enter Email" required>
+
+<input type="password" placeholder="Enter Password" required>
+
+<button type="submit">Login</button>
+
+</form>
+
+<p style="margin-top:10px;">
+Don’t have an account? <b>Register Now</b>
+</p>
+
+</div>
+</section>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBa4WOOhIrGiBMmE1xTS_jrI3gm169Qn4g",
+  authDomain: "petcaresystem-ec83c.firebaseapp.com",
+  projectId: "petcaresystem-ec83c",
+  storageBucket: "petcaresystem-ec83c.appspot.com",
+  messagingSenderId: "569091648917",
+  appId: "1:569091648917:web:7e883610396714d2d21a9c",
+  measurementId: "G-Y4KDHX5YKZ"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore(); 
+   function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function openPage(id){
+  show(id);
+}
+function showSuggestions(){
+  let found = false;
+
+services.forEach(service=>{
+  if(service.name.toLowerCase().includes(input)){
+    found = true;
+
+    let div = document.createElement("div");
+    div.innerHTML = service.name;
+    div.style.padding = "10px";
+    div.style.cursor = "pointer";
+
+    div.onclick = function(){
+      show(service.id);
+      box.style.display = "none";
+    }
+
+    div.onmouseover = ()=> div.style.background="#ddd";
+    div.onmouseout = ()=> div.style.background="white";
+
+    box.appendChild(div);
+  }
+});
+
+if(!found){
+  let div = document.createElement("div");
+  div.innerHTML = "❌ No service found";
+  div.style.padding = "10px";
+  box.appendChild(div);
+}
+
+box.style.display = "block";
+  let input = document.getElementById("searchBox").value.toLowerCase();
+  let box = document.getElementById("suggestions");
+
+  box.innerHTML = "";
+
+  if(input === ""){
+    box.style.display = "none";
+    return;
+  }
+
+  let foundItems = services.filter(s =>
+    s.name.toLowerCase().includes(input)
+  );
+
+  if(foundItems.length === 0){
+    box.innerHTML = "<div style='padding:10px'>❌ No service found</div>";
+  } else {
+    foundItems.forEach(service=>{
+      let div = document.createElement("div");
+      div.innerHTML = "🔎 " + service.name;
+      div.style.padding = "10px";
+      div.style.cursor = "pointer";
+
+      div.onclick = () => {
+        show(service.id);
+        box.style.display = "none";
+        document.getElementById("searchBox").value = service.name;
+      };
+
+      div.onmouseover = () => div.style.background = "#eee";
+      div.onmouseout = () => div.style.background = "white";
+
+      box.appendChild(div);
+    });
+  }
+
+  box.style.display = "block";
+}
+function done(e){
+  e.preventDefault();
+  alert("Request submitted successfully 🐾 Our team will contact you soon!");
+  
+}
+function goBack(){
+  show('home');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function loginUser(e){
+  localStorage.setItem("loggedIn", "true");
+localStorage.setItem("userEmail", user.email);
+  e.preventDefault();
+
+  const email = e.target[0].value;
+  const password = e.target[1].value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+
+      const user = userCredential.user;
+
+      alert("✅ Login Successful");
+
+      // Navbar update
+      document.getElementById("loginBtn").innerText =
+        "Logout (" + user.email + ")";
+
+      document.getElementById("loginBtn").onclick = logoutUser;
+
+      show('home');
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+
+
+const services = [
+
+  {name:"Cat Grooming", id:"catgroom"},
+  {name:"Dog Grooming", id:"doggroom"},
+  {name:"Cat Boarding", id:"catboarding"},
+  {name:"Dog Boarding", id:"dogboarding"}
+];
+
+
+  let found = false;
+
+  services.forEach(service=>{
+    if(service.name.toLowerCase().includes(input)){
+      found = true;
+
+      let div = document.createElement("div");
+      div.innerHTML = service.name;
+      div.style.padding = "10px";
+      div.style.cursor = "pointer";
+
+      div.onclick = function(){
+        show(service.id);
+        box.style.display = "none";
+      }
+
+      div.onmouseover = ()=> div.style.background="#ddd";
+      div.onmouseout = ()=> div.style.background="white";
+
+      box.appendChild(div);
+    }
+  });
+
+  if(!found){
+    let div = document.createElement("div");
+    div.innerHTML = "❌ No service found";
+    div.style.padding = "10px";
+    box.appendChild(div);
+  }
+
+  box.style.display = "block";
+
+
+function handleEnter(e){
+  if(e.key === "Enter"){
+    let input = document.getElementById("searchBox").value.toLowerCase();
+
+    let found = services.find(s => input.includes(s.name.toLowerCase()));
+
+    if(found){
+      show(found.id);
+    }else{
+      alert("❌ No matching service found");
+    }
+  }
+}
+function show(id){
+  document.querySelectorAll("section").forEach(s=>{
+    s.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll("nav a").forEach(a=>{
+    a.style.color = "white";
+  });
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
+function checkLogin(){
+  if(localStorage.getItem("loggedIn") !== "true"){
+    alert("❌ Please login first to access this feature");
+    show("login");
+    return false;
+  }
+  return true;
+}
+
+</script>
+</body>
+</html>
